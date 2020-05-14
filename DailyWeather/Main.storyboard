@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clear-day" translatesAutoresizingMaskIntoConstraints="NO" id="pGS-HL-sNB">
-                                <rect key="frame" x="175" y="163" width="64" height="64"/>
+                                <rect key="frame" x="175" y="123" width="64" height="64"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="64" id="TJN-bL-XcW"/>
                                     <constraint firstAttribute="height" constant="64" id="amt-Yf-MLW"/>
@@ -183,14 +183,25 @@
                             <constraint firstItem="pGS-HL-sNB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="P3X-zL-Oqe"/>
                             <constraint firstItem="Z54-8R-biC" firstAttribute="top" secondItem="L8N-yF-V1Y" secondAttribute="bottom" constant="16" id="QGc-Gq-Gwq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Z54-8R-biC" secondAttribute="trailing" constant="144" id="VFs-Um-Mbf"/>
-                            <constraint firstItem="pGS-HL-sNB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="75" id="df6-jE-97m"/>
-                            <constraint firstItem="L8N-yF-V1Y" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lMo-JK-B2P"/>
+                            <constraint firstItem="pGS-HL-sNB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="35" id="df6-jE-97m"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="L8N-yF-V1Y" secondAttribute="trailing" constant="20" id="qqB-Pb-tWD"/>
                             <constraint firstItem="L8N-yF-V1Y" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qyh-fi-5f6"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="unk-Y7-ERA"/>
+                    <connections>
+                        <outlet property="apparentTemperatureLabel" destination="Tbg-NE-5vM" id="VUM-xA-5D0"/>
+                        <outlet property="humidityLabel" destination="vco-aO-RJD" id="FC2-ga-bAi"/>
+                        <outlet property="iconImageView" destination="pGS-HL-sNB" id="o2y-uJ-fPa"/>
+                        <outlet property="locationLabel" destination="3xG-Ji-iiz" id="Lnr-c3-rYt"/>
+                        <outlet property="pressureLabel" destination="MqV-Is-Jky" id="hLM-ed-CAc"/>
+                        <outlet property="probabilityLabel" destination="CX1-Fx-HiD" id="YZp-qV-Neb"/>
+                        <outlet property="summaryLabel" destination="hg5-Fc-Kwr" id="e2T-1Y-hWu"/>
+                        <outlet property="temperatureLabel" destination="Z54-8R-biC" id="jQy-0b-aZp"/>
+                        <outlet property="uvIndexLabel" destination="q91-a2-Jv1" id="NzM-P2-z3L"/>
+                        <outlet property="windLabel" destination="hF4-nr-jiv" id="l1k-FF-llH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
