@@ -10,6 +10,9 @@
 #import "LSIWeatherIcons.h"
 #import "LSIErrors.h"
 #import "LSILog.h"
+#import "LSIFileHelper.h"
+#import "LSICurrentWeather.h"
+#import "LSICardinalDirection.h"
 
 @interface LSIWeatherViewController () {
     BOOL _requestedLocation;
@@ -18,6 +21,7 @@
 @property CLLocationManager *locationManager;
 @property CLLocation *location;
 @property (nonatomic) CLPlacemark *placemark;
+@property (nonatomic) LSICurrentWeather *currentWeather;
 
 @property (strong, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (strong, nonatomic) IBOutlet UILabel *locationLabel;
@@ -67,6 +71,9 @@
     self.locationManager.delegate = self;
     [self.locationManager requestWhenInUseAuthorization];
     [self.locationManager startUpdatingLocation];
+
+    [self requestWeatherForLocation:self.location];
+    [self updateViews];
     
     // TODO: Transparent toolbar with info button (Settings)
     // TODO: Handle settings button pressed
@@ -125,11 +132,15 @@
 - (void)requestWeatherForLocation:(CLLocation *)location {
     
     // TODO: 1. Parse CurrentWeather.json from App Bundle and update UI
-    
-    
-    
-    
-    // TODO: 2. Refactor and Parse Weather.json from App Bundle and update UI
+    NSData *weatherData = loadFile(@"CurrentWeather.json", [LSICurrentWeather class]);
+    NSError *jsonError = nil;
+    NSDictionary *weatherDictionary = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&jsonError];
+
+    if (jsonError) {
+        NSLog(@"Error parsing from JSON: %@", jsonError);
+    }
+
+    _currentWeather = [[LSICurrentWeather alloc] initWithDictionary:weatherDictionary];
 }
 
 - (void)updateViews {
@@ -137,7 +148,17 @@
         // TODO: Update the City, State label
     }
     
-    // TODO: Update the UI based on the current forecast
+    self.iconImageView.image = [LSIWeatherIcons weatherImageForIconName:self.currentWeather.icon];
+    self.locationLabel.text = self.placemark.locality;
+    self.summaryLabel.text = self.currentWeather.summary;
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%0.0f°F", self.currentWeather.temperature];
+    NSString *windDirection = [LSICardinalDirection directionForHeading:self.currentWeather.windBearing.doubleValue];
+    self.windLabel.text = [NSString stringWithFormat:@"%@ %0.0f mph", windDirection, self.currentWeather.windspeed];
+    self.humidityLabel.text = [NSString stringWithFormat:@"%0.0f%%", self.currentWeather.humidity * 100];
+    self.probabilityLabel.text = [NSString stringWithFormat:@"%0.0f%%", self.currentWeather.precipProbability];
+    self.apparentTemperatureLabel.text = [NSString stringWithFormat:@"%0.0f°F", self.currentWeather.apparentTemperature];
+    self.pressureLabel.text = [NSString stringWithFormat:@"%0.2f inHG", self.currentWeather.pressure];
+    self.uvIndexLabel.text = [NSString stringWithFormat:@"%@", self.currentWeather.uvIndex];
 }
 
 @end
