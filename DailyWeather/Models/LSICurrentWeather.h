@@ -1,5 +1,5 @@
 //
-//  LSIWeather.h
+//  LSICurrentWeather.h
 //  DailyWeather
 //
 //  Created by Tobi Kuyoro on 14/05/2020.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LSIWeather : NSObject
+@interface LSICurrentWeather : NSObject
 
 @property (nonatomic, readonly) NSDate *time;
 @property (nonatomic, readonly, copy) NSString *summary;
