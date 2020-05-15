@@ -56,8 +56,16 @@
     NSNumber *windBearing = dictionary[@"windBearing"];
     NSNumber *uvIndex = dictionary[@"uvIndex"];
 
-    if (!(timeNumber || summary || icon)) {
+    if (!timeNumber) {
         return nil;
+    }
+
+    if ([summary isKindOfClass:[NSNull class]]) {
+        summary = nil;
+    }
+
+    if ([icon isKindOfClass:[NSNull class]]) {
+        icon = nil;
     }
 
     if ([precipProbability isKindOfClass:[NSNull class]]) {
