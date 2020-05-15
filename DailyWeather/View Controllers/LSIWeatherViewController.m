@@ -13,6 +13,7 @@
 #import "LSIFileHelper.h"
 #import "LSICurrentWeather.h"
 #import "LSICardinalDirection.h"
+#import "LSIWeatherFetcher.h"
 
 @interface LSIWeatherViewController () {
     BOOL _requestedLocation;
@@ -22,6 +23,7 @@
 @property CLLocation *location;
 @property (nonatomic) CLPlacemark *placemark;
 @property (nonatomic) LSICurrentWeather *currentWeather;
+@property (nonatomic) LSIWeatherFetcher * weatherFetcher;
 
 @property (strong, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (strong, nonatomic) IBOutlet UILabel *locationLabel;
@@ -52,6 +54,7 @@
     self = [super initWithCoder:coder];
     if (self) {
         _locationManager = [[CLLocationManager alloc] init];
+        _weatherFetcher = [[LSIWeatherFetcher alloc] init];
     }
     return self;
 }
@@ -60,6 +63,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         _locationManager = [[CLLocationManager alloc] init];
+        _weatherFetcher = [[LSIWeatherFetcher alloc] init];
     }
     return self;
 }
@@ -130,16 +134,32 @@
 
 - (void)requestWeatherForLocation:(CLLocation *)location {
     
-    // TODO: 1. Parse CurrentWeather.json from App Bundle and update UI
-    NSData *weatherData = loadFile(@"CurrentWeather.json", [LSICurrentWeather class]);
-    NSError *jsonError = nil;
-    NSDictionary *weatherDictionary = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&jsonError];
+//    // TODO: 1. Parse CurrentWeather.json from App Bundle and update UI
+//    NSData *weatherData = loadFile(@"CurrentWeather.json", [LSICurrentWeather class]);
+//    NSError *jsonError = nil;
+//    NSDictionary *weatherDictionary = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&jsonError];
+//
+//    if (jsonError) {
+//        NSLog(@"Error parsing from JSON: %@", jsonError);
+//    }
 
-    if (jsonError) {
-        NSLog(@"Error parsing from JSON: %@", jsonError);
-    }
+    [self.weatherFetcher fetchWeatherUsingLocation:location completionBlock:^(LSICurrentWeather * _Nullable currentWeather, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error fetching weather: %@", error);
+            return;
+        }
 
-    _currentWeather = [[LSICurrentWeather alloc] initWithDictionary:weatherDictionary];
+        NSLog(@"Weather fetched successfully: %@", currentWeather);
+
+        LSICurrentWeather *weather = currentWeather;
+
+        if (weather) {
+            NSLog(@"Weather: %@", weather);
+        }
+    }];
+
+
+//    _currentWeather = [[LSICurrentWeather alloc] initWithDictionary:weatherDictionary];
 }
 
 - (void)updateViews {
