@@ -43,7 +43,7 @@
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     NSNumber *timeNumber = dictionary[@"time"];
-    NSDate *time = [NSDate dateWithTimeIntervalSince1970:timeNumber.longValue / 1000.0];
+    NSDate *time = [NSDate dateWithTimeIntervalSince1970:timeNumber.longValue];
     NSString *summary = dictionary[@"summary"];
     NSString *icon = dictionary[@"icon"];
     NSNumber *precipIntensity = dictionary[@"precipIntensity"];
@@ -56,9 +56,44 @@
     NSNumber *windBearing = dictionary[@"windBearing"];
     NSNumber *uvIndex = dictionary[@"uvIndex"];
 
-    if (!(timeNumber || summary || icon || precipIntensity || precipProbability || temperature
-          || apparentTemperature ||humidity || pressure || windSpeed || windBearing || uvIndex)) {
+    if (!(timeNumber || summary || icon)) {
         return nil;
+    }
+
+    if ([precipProbability isKindOfClass:[NSNull class]]) {
+        precipProbability = nil;
+    }
+
+    if ([precipIntensity isKindOfClass:[NSNull class]]) {
+        precipIntensity = nil;
+    }
+
+    if ([temperature isKindOfClass:[NSNull class]]) {
+        temperature = nil;
+    }
+
+    if ([apparentTemperature isKindOfClass:[NSNull class]]) {
+        apparentTemperature = nil;
+    }
+
+    if ([humidity isKindOfClass:[NSNull class]]) {
+        humidity = nil;
+    }
+
+    if ([pressure isKindOfClass:[NSNull class]]) {
+        pressure = nil;
+    }
+
+    if ([windSpeed isKindOfClass:[NSNull class]]) {
+        windSpeed = nil;
+    }
+
+    if ([windBearing isKindOfClass:[NSNull class]]) {
+        windBearing = nil;
+    }
+
+    if ([uvIndex isKindOfClass:[NSNull class]]) {
+        uvIndex = nil;
     }
 
     self = [self initWithTime:time

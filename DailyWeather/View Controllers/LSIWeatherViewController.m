@@ -74,9 +74,8 @@
 
     [self requestWeatherForLocation:self.location];
     [self updateViews];
-    
-    // TODO: Transparent toolbar with info button (Settings)
-    // TODO: Handle settings button pressed
+
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];
 }
 
 //https://developer.apple.com/documentation/corelocation/converting_between_coordinates_and_user-friendly_place_names
@@ -145,11 +144,13 @@
 
 - (void)updateViews {
     if (self.placemark) {
-        // TODO: Update the City, State label
+        NSString *locality = self.placemark.locality;
+        NSString *administrative = self.placemark.administrativeArea;
+
+        self.locationLabel.text = [NSString stringWithFormat:@"%@, %@", locality, administrative];
     }
-    
+
     self.iconImageView.image = [LSIWeatherIcons weatherImageForIconName:self.currentWeather.icon];
-    self.locationLabel.text = self.placemark.locality;
     self.summaryLabel.text = self.currentWeather.summary;
     self.temperatureLabel.text = [NSString stringWithFormat:@"%0.0f°F", self.currentWeather.temperature];
     NSString *windDirection = [LSICardinalDirection directionForHeading:self.currentWeather.windBearing.doubleValue];
