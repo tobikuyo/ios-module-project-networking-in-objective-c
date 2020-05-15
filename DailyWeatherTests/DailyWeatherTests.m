@@ -10,6 +10,7 @@
 #import "LSIFileHelper.h"
 #import "LSICurrentWeather.h"
 #import "LSIDailyForecast.h"
+#import "LSIHourlyForecast.h"
 
 @interface DailyWeatherTests : XCTestCase
 
@@ -33,6 +34,19 @@
 - (void)testDailyForecast {
 
     NSData *weatherData = loadFile(@"DailyWeather.json", [LSIDailyForecast class]);
+    NSError *jsonError = nil;
+    NSDictionary *weatherDictionary = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&jsonError];
+
+    if (jsonError) {
+        XCTFail(@"Error parsing JSON: %@", jsonError);
+    }
+
+    XCTAssertNotNil(weatherDictionary);
+}
+
+- (void)testHourlyForecast {
+
+    NSData *weatherData = loadFile(@"HourlyWeather.json", [LSIHourlyForecast class]);
     NSError *jsonError = nil;
     NSDictionary *weatherDictionary = [NSJSONSerialization JSONObjectWithData:weatherData options:0 error:&jsonError];
 
